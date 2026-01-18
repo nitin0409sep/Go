@@ -22,9 +22,9 @@ func main() {
 	numbers := [2][2]int{{1, 1}, {2, 3}}
 	fmt.Println(numbers)
 
-	//! When to use array -> Fixed Size, that is predictable
-	//! Memory Optimization
-	//! Constant time access
+	// When to use array -> Fixed Size, that is predictable
+	// Memory Optimization
+	// Constant time access
 
-	//! if we don't know exact length and all, then we used slices that provide or allocate memory dynamically
+	// if we don't know exact length and all, then we used slices that provide or allocate memory dynamically
 }

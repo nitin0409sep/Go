@@ -10,7 +10,7 @@ func main() {
 
 	age = 1
 
-	//! simple switch
+	// simple switch
 	switch age {
 	case 1:
 		{
@@ -26,7 +26,7 @@ func main() {
 		}
 	}
 
-	//! Multiple Condition Switch
+	// Multiple Condition Switch
 	switch time.Now().Weekday() {
 	case time.Saturday, time.Sunday:
 		{
@@ -38,7 +38,7 @@ func main() {
 		}
 	}
 
-	//! Type Switch
+	// Type Switch
 	whatType := func(i interface{}) interface{} { // interface {} => its just like any type
 		switch v := i.(type) {
 		case int:
