@@ -32,7 +32,7 @@ func (o order) getStatus() string {
 	return o.status // Here we don't need to pass ref as we are only reading the value, so it will work fine
 }
 
-func main() {
+func main1() {
 
 	// 2nd method of creating struct - Inline Struct -> If you want to use struct single time then you can create it
 	language := struct {
