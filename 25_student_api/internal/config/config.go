@@ -9,14 +9,18 @@ import (
 )
 
 type HttpServer struct {
-	Address string
+	Addr string `yaml:"address" env-required:"true"`
 }
 
-// env-default:"production"
+
+//! In Go, struct tags must not contain spaces around ':' ->  Because of the space, cleanenv cannot read those fields, so HttpServer stays empty ({}).
+//! Addr string `yaml: "address" env-required:"true"`  -> Wrong
+//! Addr string `yaml:"address" env-required:"true"` -> Correct
+
 type Config struct {
-	Env         string     `yaml: "env" env: "env" env-required: "true"` // called as struct-tags
-	StoragePath string     `yaml: "storage_path" env-required: "true"`
-	HttpServer  HttpServer `yaml: "http_server" env-required: "true"`
+	Env         string `yaml:"env" env:"ENV" env-required:"true"`
+	StoragePath string `yaml:"storage_path" env-required:"true"`
+	HttpServer  `yaml:"http_server"`
 }
 
 func MustLoad() *Config {
@@ -47,6 +51,8 @@ func MustLoad() *Config {
 	if err != nil {
 		log.Fatalf("Can not read config file %s", err.Error())
 	}
+
+	// fmt.Printf("%+v\n", cfg)
 
 	return &cfg
 }
