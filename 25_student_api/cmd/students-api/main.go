@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/nitin0409sep/students-api/internal/config"
+	"github.com/nitin0409sep/students-api/internal/http/handler/student"
 )
 
 func main() {
@@ -22,9 +23,7 @@ func main() {
 	// setup router
 	router := http.NewServeMux()  // Returns Router
 
-	router.HandleFunc("GET /", func (w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to students api"))
-	})
+	router.HandleFunc("GET /", student.New())
 
 	// setup server
 	server := http.Server {
