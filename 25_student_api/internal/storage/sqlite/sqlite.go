@@ -46,7 +46,7 @@ func (s *Sqlite) CreateStudent(name string, email string, age int) (int64, error
 		return 0, err
 	}
 
-	stmt.Close()
+	defer stmt.Close()
 
 	result, err := stmt.Exec(name, email, age)
 
