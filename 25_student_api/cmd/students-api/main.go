@@ -13,6 +13,7 @@ import (
 
 	"github.com/nitin0409sep/students-api/internal/config"
 	"github.com/nitin0409sep/students-api/internal/http/handler/student"
+	"github.com/nitin0409sep/students-api/internal/storage/sqlite"
 )
 
 func main() {
@@ -20,10 +21,18 @@ func main() {
 	cfg := config.MustLoad()
 
 	// database setup
+	storage, err := sqlite.New(cfg)
+
+	if err != nil {
+		log.Fatal(err);
+	}
+
+	slog.Info("Storage Initialized", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
+
 	// setup router
 	router := http.NewServeMux()  // Returns Router
 
-	router.HandleFunc("GET /", student.New())
+	router.HandleFunc("GET /", student.New(storage))
 
 	// setup server
 	server := http.Server {
@@ -60,7 +69,7 @@ func main() {
 	defer cancel() // As the function ends this will be called
 
 
-	err := server.Shutdown(ctx)
+	err = server.Shutdown(ctx)
 
 	if err != nil {
 		slog.Error("failed to shutdown server", slog.String("error", err.Error()))
