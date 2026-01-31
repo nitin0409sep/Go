@@ -7,6 +7,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/nitin0409sep/students-api/internal/storage"
@@ -60,4 +61,32 @@ func New(storage storage.Storage) http.HandlerFunc {
 		response.WriteJson(w, http.StatusInternalServerError, lastId)
 	}
 
+}
+
+
+// Get Student By id
+func GetById(storage storage.Storage) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request) {
+		var id = r.PathValue("id");
+		slog.Info("Getting a student by ID" , slog.String("id", id))
+
+		intId, err := strconv.ParseInt(id, 10, 64) // Covert string int64 --> strconv.Atoi -> Covert string to int
+
+		if(err != nil) {
+			slog.Error("error getting user -> student id not sent in url params", slog.String("id", id))
+			response.WriteJson(w, http.StatusBadRequest, response.GeneralError(err))
+			return;
+		} 
+
+		student, e := storage.GetById(intId)
+
+		if e != nil {
+			slog.Error("error getting user", slog.String("id", id))
+			response.WriteJson(w, http.StatusInternalServerError, response.GeneralError(e))
+			return
+		}
+
+		response.WriteJson(w, http.StatusOK, student)
+
+	}
 }
